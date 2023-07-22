@@ -16,13 +16,13 @@ public class EmployeeService {
 
     private final static int MAX_SIZE = 2;
 
-    public Employee add(String firstName, String lastName) {
+    public Employee add(String firstName, String lastName, double salary, int departmentId) {
 
         if (employees.size() >= MAX_SIZE) {
             throw new EmployeeStorageIsFullException("Массив сотрудников переполнен");
         }
 
-        Employee newEmployee = new Employee(firstName, lastName);
+        Employee newEmployee = new Employee(firstName, lastName, salary, departmentId);
 
         if (employees.contains(newEmployee)) {
             throw new EmployeeAlreadyAddedException("Такой сотрудник уже есть");
@@ -32,8 +32,8 @@ public class EmployeeService {
         return newEmployee;
     }
 
-    public Employee find(String firstName, String lastName) {
-        Employee employeeForFound = new Employee(firstName, lastName);
+    public Employee find(String firstName, String lastName, double salary, int departmentId) {
+        Employee employeeForFound = new Employee(firstName, lastName, salary, departmentId);
         for (Employee e : employees) {
             if (e.equals(employeeForFound)) {
                 return e;
@@ -43,8 +43,8 @@ public class EmployeeService {
         throw new EmployeeNotFoundException("Такого сотрудника нет");
     }
 
-    public Employee remove(String firstName, String lastName) {
-        Employee employeeForRemove = new Employee(firstName, lastName);
+    public Employee remove(String firstName, String lastName, double salary, int departmentId) {
+        Employee employeeForRemove = new Employee(firstName, lastName, salary, departmentId);
 
         boolean removeResult = employees.remove(employeeForRemove);
         if (removeResult) {

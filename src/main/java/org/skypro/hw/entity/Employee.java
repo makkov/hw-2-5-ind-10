@@ -4,12 +4,16 @@ import java.util.Objects;
 
 public class Employee {
 
-    public final String firstName;
-    public final String lastName;
+    private final String firstName;
+    private final String lastName;
+    private final double salary;
+    private final int departmentId;
 
-    public Employee(String firstName, String lastName) {
+    public Employee(String firstName, String lastName, double salary, int departmentId) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.salary = salary;
+        this.departmentId = departmentId;
     }
 
     public String getFirstName() {
@@ -18,6 +22,14 @@ public class Employee {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public int getDepartmentId() {
+        return departmentId;
     }
 
     @Override
