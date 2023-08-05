@@ -1,6 +1,8 @@
 package org.skypro.hw.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.skypro.hw.entity.Employee;
+import org.skypro.hw.exception.BadRequestException;
 import org.skypro.hw.exception.EmployeeAlreadyAddedException;
 import org.skypro.hw.exception.EmployeeNotFoundException;
 import org.skypro.hw.exception.EmployeeStorageIsFullException;
@@ -14,20 +16,11 @@ public class EmployeeService {
 
     private final List<Employee> employees = new ArrayList<>();
 
-    public EmployeeService() {
-        employees.add(new Employee("Иван", "Иванов", 1000.0, 1));
-        employees.add(new Employee("Иван1", "Иванов1", 999.9, 1));
-        employees.add(new Employee("Иван2", "Иванов2", 8.50, 1));
-
-        employees.add(new Employee("Пётр", "Петров", 8.50, 2));
-
-        employees.add(new Employee("Илья", "Ильин", 777.50, 3));
-        employees.add(new Employee("Илья1", "Ильин1", 88.8, 3));
-    }
-
     private final static int MAX_SIZE = 2;
 
     public Employee add(String firstName, String lastName, double salary, int departmentId) {
+
+        validateFullName(firstName, lastName);
 
         if (employees.size() >= MAX_SIZE) {
             throw new EmployeeStorageIsFullException("Массив сотрудников переполнен");
@@ -41,6 +34,35 @@ public class EmployeeService {
 
         employees.add(newEmployee);
         return newEmployee;
+    }
+
+    private void validateFullName(String firstName, String lastName) {
+        validateCapitalize(firstName, lastName);
+        validateIsAlpha(firstName, lastName);
+    }
+
+    private void validateCapitalize(String firstName, String lastName) {
+        String capitalizeFirstName = StringUtils.capitalize(firstName);
+
+        if (!firstName.equals(capitalizeFirstName)) {
+            throw new BadRequestException("Имя начинается не с заглавной буквы");
+        }
+
+        String capitalizeLastName = StringUtils.capitalize(lastName);
+
+        if (!lastName.equals(capitalizeLastName)) {
+            throw new BadRequestException("Фамилия начинается не с заглавной буквы");
+        }
+    }
+
+    private void validateIsAlpha(String firstName, String lastName) {
+        if (!StringUtils.isAlpha(firstName)) {
+            throw new BadRequestException("Имя должно содержать только буквы");
+        }
+
+        if (!StringUtils.isAlpha(lastName)) {
+            throw new BadRequestException("Фамилия должна содержать только буквы");
+        }
     }
 
     public Employee find(String firstName, String lastName, double salary, int departmentId) {
