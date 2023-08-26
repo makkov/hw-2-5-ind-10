@@ -14,7 +14,7 @@ public class EmployeeService {
 
     private final List<Employee> employees = new ArrayList<>();
 
-    private final static int MAX_SIZE = 2;
+    private final static int MAX_SIZE = 1;
 
     public Employee add(String firstName, String lastName, double salary, int departmentId) {
 
